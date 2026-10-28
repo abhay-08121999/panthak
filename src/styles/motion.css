@@ -1,0 +1,65 @@
+/* Motion + polish layer (loaded last, so it can refine earlier rules) */
+::selection { background: var(--teal); color: #fff; }
+html { scroll-padding-top: 90px; scrollbar-width: thin; scrollbar-color: var(--teal) var(--paper); }
+p { text-wrap: pretty; }
+h2, h3 { text-wrap: balance; }
+
+/* Scroll progress + back to top */
+.progress { position: fixed; inset: 0 0 auto 0; z-index: 70; height: 3px; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, var(--teal), var(--teal-bright)); }
+.to-top {
+  position: fixed; right: 24px; bottom: 24px; z-index: 40; width: 48px; height: 48px; border-radius: 50%;
+  border: 0; cursor: pointer; background: var(--navy); box-shadow: 0 10px 24px rgba(9,26,51,.3);
+  opacity: 0; transform: translateY(16px) scale(.9); pointer-events: none;
+  transition: opacity .3s, transform .35s var(--ease), background .25s;
+}
+.to-top::before { content: ""; position: absolute; left: 50%; top: 52%; width: 12px; height: 12px; border-left: 2.5px solid #fff; border-top: 2.5px solid #fff; transform: translate(-50%, -50%) rotate(45deg); }
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: var(--teal); transform: translateY(-3px); }
+
+/* Entrance: elements glide up in sequence (class added by Effects.jsx) */
+.reveal { transition: opacity .8s var(--ease) var(--d, 0ms), transform .8s var(--ease) var(--d, 0ms); }
+.reveal:not(.in) { opacity: 0; transform: translateY(30px); }
+.portraits figure:first-child.reveal:not(.in) { transform: translate(-30px, 20px); }
+.portraits figure:last-child.reveal:not(.in) { transform: translate(30px, 20px); }
+.steps li.reveal::after { transition: transform 1.1s var(--ease) calc(var(--d, 0ms) + .5s); transform-origin: left; }
+.steps li.reveal:not(.in)::after { transform: scaleX(0); }
+.steps li.reveal::before { transition: transform .6s var(--ease) calc(var(--d, 0ms) + .2s); }
+.steps li.reveal:not(.in)::before { transform: scale(0); }
+
+/* Cards: cursor spotlight + icon spin */
+.svc, .benefits, .faq-cta { position: relative; overflow: hidden; }
+.svc::after, .benefits::after, .faq-cta::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(63,182,176,.18), transparent 70%);
+}
+.svc:hover::after, .benefits:hover::after, .faq-cta:hover::after { opacity: 1; }
+.svc { transition: transform .35s var(--ease), box-shadow .35s, border-color .35s; }
+.svc:hover { border-top-color: var(--navy); }
+.mark { transition: transform .6s var(--ease); }
+.svc:hover .mark { transform: rotate(180deg) scale(1.15); }
+.photo { transition: transform .7s var(--ease); }
+.svc:hover .photo, .benefits:hover .photo { transform: scale(1.03); }
+.tags li { transition: background .25s, color .25s, transform .25s var(--ease); }
+.tags li:hover { background: var(--navy); color: #fff; transform: translateY(-2px); }
+.stats > div { transition: background .3s; }
+.stats > div:hover { background: var(--teal-soft); }
+.num-grid > div { padding-left: 1.25rem; border-left: 2px solid rgba(63,182,176,.4); transition: border-color .3s; }
+.num-grid > div:hover { border-color: var(--teal-bright); }
+
+/* Slow ambient motion (kept to two places) */
+.banner { background-size: 220% 220%; animation: drift 18s ease-in-out infinite alternate; }
+@keyframes drift { to { background-position: 100% 100%; } }
+.places { animation: pop .7s var(--ease) 1.1s both, float 5s ease-in-out 2s infinite alternate; }
+@keyframes float { to { transform: translateY(-7px); } }
+@media (min-width: 1025px) and (hover: hover) { .process { background-attachment: scroll, fixed; } }
+
+/* Layout polish */
+.founders .badge, .why .badge { box-shadow: inset 0 0 0 1px rgba(31,138,138,.25); }
+.footer { border-top: 4px solid var(--teal); }
+.qa:hover { border-color: rgba(31,138,138,.5); }
+.qa button:hover { color: var(--teal); }
+@media (max-width: 600px) { .to-top { right: 16px; bottom: 16px; } }
+@media (prefers-reduced-motion: reduce) {
+  .banner { animation: none; }
+  .progress, .to-top { display: none; }
+}
