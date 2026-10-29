@@ -4,19 +4,80 @@ html { scroll-padding-top: 90px; scrollbar-width: thin; scrollbar-color: var(--t
 p { text-wrap: pretty; }
 h2, h3 { text-wrap: balance; }
 
-/* Scroll progress + back to top */
-.progress { position: fixed; inset: 0 0 auto 0; z-index: 70; height: 3px; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, var(--teal), var(--teal-bright)); }
-.to-top {
-  position: fixed; right: 24px; bottom: 24px; z-index: 40; width: 48px; height: 48px; border-radius: 50%;
-  border: 0; cursor: pointer; background: var(--navy); box-shadow: 0 10px 24px rgba(9,26,51,.3);
-  opacity: 0; transform: translateY(16px) scale(.9); pointer-events: none;
-  transition: opacity .3s, transform .35s var(--ease), background .25s;
+/* ---------- Logo cycle (2 frames, 3s each, 6s loop, gentle zoom) ---------- */
+.logo-cycle {
+  position: relative;
+  display: inline-block;
+  width: 150px;
+  height: 64px;
+  vertical-align: middle;
 }
-.to-top::before { content: ""; position: absolute; left: 50%; top: 52%; width: 12px; height: 12px; border-left: 2.5px solid #fff; border-top: 2.5px solid #fff; transform: translate(-50%, -50%) rotate(45deg); }
-.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
-.to-top:hover { background: var(--teal); transform: translateY(-3px); }
+.logo-frame {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  animation: logo-frame 6s linear infinite;
+  animation-delay: calc(var(--i) * 3s);
+  will-change: transform, opacity;
+}
+.logo-cycle:hover .logo-frame { animation-play-state: paused; }
+.logo-frame img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+@keyframes logo-frame {
+  0%   { opacity: 0; transform: scale(1.2); }   /* arrives slightly large */
+  10%  { opacity: 1; transform: scale(1); }     /* zoom out: settles into place */
+  42%  { opacity: 1; transform: scale(1); }     /* hold */
+  50%  { opacity: 0; transform: scale(1.1); }   /* zoom in: gently pushes forward and exits */
+  100% { opacity: 0; transform: scale(1.1); }
+}
 
-/* Entrance: elements glide up in sequence (class added by Effects.jsx) */
+/* ---------- Photo bands (background image enters, then drifts upward on scroll) ---------- */
+.band { position: relative; isolation: isolate; overflow: hidden; }
+.band > * { position: relative; z-index: 1; }
+.band::before {
+  content: "";
+  position: absolute;
+  inset: -25% 0;                    /* extra room so parallax never shows an edge */
+  z-index: -1;
+  pointer-events: none;
+  background: var(--band-overlay), var(--band-img) center / cover no-repeat;
+  opacity: 0;
+  transform: translate3d(0, var(--py, 0px), 0);
+  transition: opacity 1.4s var(--ease);
+  will-change: transform;
+}
+.band.bg-in::before { opacity: 1; }
+
+.hero {
+  --band-img: url("/images/bg-meeting.jpg");
+  --band-overlay: linear-gradient(rgba(243, 246, 249, .9), rgba(243, 246, 249, .96));
+}
+.banner {
+  --band-img: url("/images/bg-analytics.jpg");
+  --band-overlay: linear-gradient(120deg, rgba(15, 39, 71, .93), rgba(27, 79, 122, .9) 55%, rgba(31, 138, 138, .88));
+}
+.numbers {
+  --band-img: url("/images/bg-advisory.jpg");
+  --band-overlay: linear-gradient(rgba(15, 39, 71, .94), rgba(9, 26, 51, .96));
+}
+.process {
+  --band-img: url("/images/process.jpg");
+  --band-overlay: linear-gradient(160deg, rgba(9, 26, 51, .93), rgba(15, 39, 71, .88) 60%, rgba(20, 80, 106, .86));
+  background: var(--navy-deep);     /* photo now lives in ::before so it can move */
+}
+
+/* Ambient motion on banner */
+.banner { background-size: 220% 220%; animation: drift 18s ease-in-out infinite alternate; }
+@keyframes drift { to { background-position: 100% 100%; } }
+
+/* ---------- Entrance reveals ---------- */
 .reveal { transition: opacity .8s var(--ease) var(--d, 0ms), transform .8s var(--ease) var(--d, 0ms); }
 .reveal:not(.in) { opacity: 0; transform: translateY(30px); }
 .portraits figure:first-child.reveal:not(.in) { transform: translate(-30px, 20px); }
@@ -26,15 +87,17 @@ h2, h3 { text-wrap: balance; }
 .steps li.reveal::before { transition: transform .6s var(--ease) calc(var(--d, 0ms) + .2s); }
 .steps li.reveal:not(.in)::before { transform: scale(0); }
 
-/* Cards: cursor spotlight + icon spin */
+/* ---------- Cards: cursor spotlight, icon spin, hover polish ---------- */
 .svc, .benefits, .faq-cta { position: relative; overflow: hidden; }
 .svc::after, .benefits::after, .faq-cta::after {
   content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
-  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(63,182,176,.18), transparent 70%);
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(63, 182, 176, .18), transparent 70%);
 }
 .svc:hover::after, .benefits:hover::after, .faq-cta:hover::after { opacity: 1; }
 .svc { transition: transform .35s var(--ease), box-shadow .35s, border-color .35s; }
 .svc:hover { border-top-color: var(--navy); }
+.svc h3 { transition: color .3s; }
+.svc:hover h3 { color: var(--teal); }
 .mark { transition: transform .6s var(--ease); }
 .svc:hover .mark { transform: rotate(180deg) scale(1.15); }
 .photo { transition: transform .7s var(--ease); }
@@ -43,23 +106,31 @@ h2, h3 { text-wrap: balance; }
 .tags li:hover { background: var(--navy); color: #fff; transform: translateY(-2px); }
 .stats > div { transition: background .3s; }
 .stats > div:hover { background: var(--teal-soft); }
-.num-grid > div { padding-left: 1.25rem; border-left: 2px solid rgba(63,182,176,.4); transition: border-color .3s; }
+.num-grid > div { padding-left: 1.25rem; border-left: 2px solid rgba(63, 182, 176, .4); transition: border-color .3s; }
 .num-grid > div:hover { border-color: var(--teal-bright); }
+.portraits img { filter: grayscale(.25); transition: transform .5s var(--ease), filter .6s; }
+.portraits figure:hover img { filter: grayscale(0); }
 
-/* Slow ambient motion (kept to two places) */
-.banner { background-size: 220% 220%; animation: drift 18s ease-in-out infinite alternate; }
-@keyframes drift { to { background-position: 100% 100%; } }
-.places { animation: pop .7s var(--ease) 1.1s both, float 5s ease-in-out 2s infinite alternate; }
-@keyframes float { to { transform: translateY(-7px); } }
-@media (min-width: 1025px) and (hover: hover) { .process { background-attachment: scroll, fixed; } }
+/* ---------- Footer polish ---------- */
+.foot-links a { background: linear-gradient(var(--teal-bright), var(--teal-bright)) 0 100% / 0 1px no-repeat; transition: background-size .35s var(--ease), color .2s; }
+.foot-links a:hover { background-size: 100% 1px; }
 
-/* Layout polish */
-.founders .badge, .why .badge { box-shadow: inset 0 0 0 1px rgba(31,138,138,.25); }
-.footer { border-top: 4px solid var(--teal); }
-.qa:hover { border-color: rgba(31,138,138,.5); }
+/* ---------- Layout polish ---------- */
+.founders .badge, .why .badge { box-shadow: inset 0 0 0 1px rgba(31, 138, 138, .25); }
+.qa:hover { border-color: rgba(31, 138, 138, .5); }
 .qa button:hover { color: var(--teal); }
-@media (max-width: 600px) { .to-top { right: 16px; bottom: 16px; } }
+@media (max-width: 600px) {
+  .to-top { right: 16px; bottom: 16px; }
+  .logo-cycle { width: 120px; height: 52px; }
+}
+
+/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   .banner { animation: none; }
   .progress, .to-top { display: none; }
+  .logo-frame { animation: none; }
+  .logo-frame:first-child { opacity: 1; }
+  .logo-frame:not(:first-child) { display: none; }
+  .band::before { transform: none; transition: none; opacity: 1; }
+  .band > * { transition: none; }
 }

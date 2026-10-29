@@ -9,6 +9,9 @@ const REVEAL = [
   '.faq .badge', '.faq h2', '.faq .sub', '.qa', '.faq-cta', '.foot-grid > *',
 ].join(',');
 
+// Sections that get a photo band: it fades in and drifts upward as you scroll
+const BANDS = '.hero, .banner, .numbers, .process';
+
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function useReveal(path) {
@@ -40,6 +43,55 @@ function useReveal(path) {
   }, [path]);
 }
 
+// Photo bands: fade in on entry, then move upward with scroll (parallax)
+function useBands(path) {
+  useEffect(() => {
+    const els = [...document.querySelectorAll(BANDS)];
+    if (!els.length) return;
+    els.forEach((el) => el.classList.add('band'));
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('bg-in');
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.1 });
+    els.forEach((el) => io.observe(el));
+
+    if (reduced()) {
+      els.forEach((el) => el.classList.add('bg-in'));
+      return () => io.disconnect();
+    }
+
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      els.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        // 0 when the section is centred in the viewport; negative as it scrolls up,
+        // so the photo drifts upward faster than the page
+        const centre = r.top + r.height / 2 - vh / 2;
+        const max = r.height * 0.2;
+        const py = Math.max(-max, Math.min(max, centre * 0.12));
+        el.style.setProperty('--py', `${py.toFixed(1)}px`);
+      });
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [path]);
+}
+
 // Cursor-following glow on cards
 function useSpotlight() {
   useEffect(() => {
@@ -61,6 +113,7 @@ export default function Effects() {
   const [top, setTop] = useState(false);
 
   useReveal(pathname);
+  useBands(pathname);
   useSpotlight();
 
   useEffect(() => {

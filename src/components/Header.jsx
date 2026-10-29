@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import LogoCycle from './LogoCycle.jsx';
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -57,7 +58,7 @@ export default function Header() {
     <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
       <div className="wrap header-inner">
         <Link className="brand" to="/" aria-label="Panthak home">
-          <img src="/logo.svg" alt="PBS" width="64" height="64" />
+          <LogoCycle />
         </Link>
 
         <button

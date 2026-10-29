@@ -1,34 +1,76 @@
 import { Link } from 'react-router-dom';
+import { Facebook, Instagram, Linkedin, Mail, Phone, Twitter } from 'lucide-react';
 
-const quick = [['Services', '/services'], ['Case Studies', '/case-studies'], ['Contact', '/contact'], ['Careers', '/careers'], ['Blogs', '/blogs'], ['Industries', '/services'], ['Privacy Policy', '/contact'], ['Terms & Conditions', '/contact']];
-const social = [['LinkedIn', 'in'], ['Instagram', 'ig'], ['Facebook', 'fb'], ['X', 'x']];
+const links = [
+  { label: 'Services', to: '/services' },
+  { label: 'Case Studies', to: '/case-studies' },
+  { label: 'Careers', to: '/careers' },
+  { label: 'Blogs', to: '/blogs' },
+  { label: 'Contact Us', to: '/contact' },
+  { label: 'Privacy Policy', to: '/contact' },
+  { label: 'Terms & Conditions', to: '/contact' },
+];
+
+// Replace href="#" with real profile URLs before publishing.
+const socials = [
+  { label: 'LinkedIn', Icon: Linkedin, href: '#' },
+  { label: 'Instagram', Icon: Instagram, href: '#' },
+  { label: 'Facebook', Icon: Facebook, href: '#' },
+  { label: 'X (Twitter)', Icon: Twitter, href: '#' },
+];
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="footer">
-      <div className="wrap foot-grid">
-        <div>
-          <Link to="/" className="foot-brand"><img src="/logo.svg" alt="" width="52" height="52" />PANTHAK</Link>
-          <p className="tag">Business Strategy. Digital Strategy. Delivered globally.</p>
-          <Link className="foot-link" to="/about">Explore Our Story &raquo;</Link>
-        </div>
-        <nav aria-label="Quick links">
-          <h4>Quick Links</h4>
-          <ul>{quick.map(([l, to]) => <li key={l}><Link to={to}>{l}</Link></li>)}</ul>
-        </nav>
-        <div>
-          <h4>Get in Touch</h4>
-          <p>Email:<br /><a href="mailto:info@panthak.com">info@panthak.com</a></p>
-          <p>Phone:<br /><a href="tel:+919362064513">+91 93620 64513</a></p>
-          <Link className="foot-link" to="/contact">Book a Strategy Call &raquo;</Link>
-        </div>
-        <div>
-          <h4>Follow Us</h4>
-          <ul className="social">{social.map(([l, s]) => <li key={l}><a href="#" aria-label={l}>{s}</a></li>)}</ul>
-          <p className="tag">Let&rsquo;s shape the future of your business together</p>
-        </div>
+      <div className="wrap foot-inner">
+        <Link to="/" className="foot-logo-link" aria-label="Panthak home">
+          <img className="foot-logo" src="/images/panthak-logo.png" alt="Panthak" width="180" height="103" />
+        </Link>
+
+        <p className="foot-title">
+          PANTHAK <span>BUSINESS</span>
+        </p>
+        <p className="foot-tag">Business strategy. Digital strategy. Delivered globally.</p>
+
+        <ul className="foot-contact">
+          <li>
+            <Mail size={16} aria-hidden="true" />
+            <a href="mailto:info@panthak.com">info@panthak.com</a>
+          </li>
+          <li>
+            <Phone size={16} aria-hidden="true" />
+            <a href="tel:+919362064513">+91 93620 64513</a>
+          </li>
+        </ul>
+
+        <ul className="social">
+          {socials.map(({ label, Icon, href }) => (
+            <li key={label}>
+              <a href={href} aria-label={label}>
+                <Icon size={18} aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <Link className="foot-pill" to="/contact">Book a Strategy Call</Link>
+
+        <p className="foot-copy">&copy; {year} Panthak Business Solutions (PBS). All rights reserved.</p>
       </div>
-      <p className="copy">&copy; 2026 Panthak Business Solutions (PBS). All rights reserved.</p>
+
+      <div className="foot-bottom">
+        <nav className="wrap" aria-label="Footer">
+          <ul className="foot-links">
+            {links.map(({ label, to }) => (
+              <li key={label}>
+                <Link to={to}>{label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </footer>
   );
 }
