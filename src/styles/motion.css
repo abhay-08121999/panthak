@@ -145,9 +145,16 @@ h2, h3 { text-wrap: balance; }
 .intro { padding-top: clamp(4rem, 8vw, 6.5rem); }
 
 /* Footer logo: a bit smaller */
-.footer .foot-logo { height: 76px; max-width: 220px; padding: 10px 16px; border-radius: 14px; }
-@media (max-width: 860px) { .footer .foot-logo { height: 64px; } }
+.footer .foot-logo { height: 92px; max-width: 260px; padding: 12px 18px; border-radius: 14px; }
+@media (max-width: 860px) { .footer .foot-logo { height: 76px; } }
 
 /* Chat bubble photo fills the circle */
 .chat-bubble { overflow: visible; }
 .chat-bubble img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; border-radius: 50%; }
+
+/* PBS logo is square with built-in padding, so keep it smaller than the wide Panthak logo */
+.logo-frame.logo-pbs img { max-height: 70%; max-width: 70%; }
+
+/* No tilt / scale on hover for the header logos */
+.brand:hover img,
+.brand:hover .logo-frame img { transform: none; }
