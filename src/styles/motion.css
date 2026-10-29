@@ -8,9 +8,10 @@ h2, h3 { text-wrap: balance; }
 .logo-cycle {
   position: relative;
   display: inline-block;
-  width: 150px;
-  height: 64px;
+  width: 92px;
+  height: 34px;
   vertical-align: middle;
+  transition: width .3s var(--ease), height .3s var(--ease);
 }
 .logo-frame {
   position: absolute;
@@ -29,7 +30,12 @@ h2, h3 { text-wrap: balance; }
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  mix-blend-mode: multiply;
 }
+/* Stop the old square .brand img sizing from squashing the cycling logos */
+.brand .logo-frame img,
+.scrolled .brand .logo-frame img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
+.scrolled .logo-cycle { width: 80px; height: 29px; }
 @keyframes logo-frame {
   0%   { opacity: 0; transform: scale(1.2); }   /* arrives slightly large */
   10%  { opacity: 1; transform: scale(1); }     /* zoom out: settles into place */
@@ -121,7 +127,7 @@ h2, h3 { text-wrap: balance; }
 .qa button:hover { color: var(--teal); }
 @media (max-width: 600px) {
   .to-top { right: 16px; bottom: 16px; }
-  .logo-cycle { width: 120px; height: 52px; }
+  .logo-cycle { width: 76px; height: 28px; }
 }
 
 /* ---------- Reduced motion ---------- */
@@ -134,3 +140,14 @@ h2, h3 { text-wrap: balance; }
   .band::before { transform: none; transition: none; opacity: 1; }
   .band > * { transition: none; }
 }
+/* Space between the marquee bar and the intro text */
+.capabilities + .intro,
+.intro { padding-top: clamp(4rem, 8vw, 6.5rem); }
+
+/* Footer logo: a bit smaller */
+.footer .foot-logo { height: 76px; max-width: 220px; padding: 10px 16px; border-radius: 14px; }
+@media (max-width: 860px) { .footer .foot-logo { height: 64px; } }
+
+/* Chat bubble photo fills the circle */
+.chat-bubble { overflow: visible; }
+.chat-bubble img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; border-radius: 50%; }
