@@ -12,7 +12,7 @@ h3 { font-family: var(--font-display); font-weight: 700; color: var(--navy); fon
 .text-link:hover { background-size: 100% 2px; }
 
 /* ---------- Intro + stats ---------- */
-.intro { padding: 0 0 clamp(3rem, 6vw, 5rem); }
+.intro { padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem); }
 .intro-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
 .intro p { margin: 0 0 1rem; max-width: 60ch; }
 .intro .btn { margin-top: .75rem; }
