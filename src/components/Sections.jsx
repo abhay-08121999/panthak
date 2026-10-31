@@ -145,7 +145,7 @@ export function Founders() {
             ))}
           </div>
           <blockquote>
-            <p>We started Panthak Business Solutions with a simple belief: businesses deserve better than cookie-cutter consulting. Too many companies get lost in jargon and theoretical frameworks that look great on slides but fall flat in practice. We&rsquo;re here to change that. Our approach is straightforward: understand your actual challenges, build practical solutions, and stick around to make sure they work. Real expertise applied to real problems. We built this firm in Ahmedabad, grew it into Pune, and designed it to work just as well for a business anywhere else in India or the world.</p>
+            <p>We started <strong className="pn">Panthak</strong> Business Solutions with a simple belief: businesses deserve better than cookie-cutter consulting. Too many companies get lost in jargon and theoretical frameworks that look great on slides but fall flat in practice. We&rsquo;re here to change that. Our approach is straightforward: understand your actual challenges, build practical solutions, and stick around to make sure they work. Real expertise applied to real problems. We built this firm in Ahmedabad, grew it into Pune, and designed it to work just as well for a business anywhere else in India or the world.</p>
             <footer><strong>Atul Pandey &amp; Dr. Jyoti Pathak</strong><span>Founders, Panthak</span></footer>
           </blockquote>
         </div>
@@ -161,19 +161,19 @@ export function Why() {
         <span className="badge">Why Panthak</span>
         <h2>Why Businesses in Pune and Ahmedabad Choose Panthak</h2>
         <div className="prose">
-          <p>Most companies do not need ten different vendors for ten different problems. They need one accountable partner who understands how marketing, finance, HR, and technology actually connect. That is the gap Panthak fills for businesses in Pune, Ahmedabad, and beyond.</p>
+          <p>Most companies do not need ten different vendors for ten different problems. They need one accountable partner who understands how marketing, finance, HR, and technology actually connect. That is the gap <strong className="pn">Panthak</strong> fills for businesses in Pune, Ahmedabad, and beyond.</p>
           <p>A single consulting engagement removes the coordination burden: your digital marketing plan, financial compliance calendar, and software roadmap sit with one team instead of four separate ones that need to be briefed from scratch every time.</p>
         </div>
         <div className="two">
           <article className="svc">
             <h3>Industries We Serve</h3>
-            <p>Panthak works with founders and leadership teams across more than 10 industries, including healthcare and wellness, manufacturing, real estate, financial services, education, hospitality, logistics, retail, professional services, and technology startups.</p>
+            <p><strong className="pn">Panthak</strong> works with founders and leadership teams across more than 10 industries, including healthcare and wellness, manufacturing, real estate, financial services, education, hospitality, logistics, retail, professional services, and technology startups.</p>
             <ul className="tags">{industries.map((i) => <li key={i}>{i}</li>)}</ul>
           </article>
           <article className="svc">
             <img className="photo" src="/images/office.jpg" alt="Modern office building at sunset" width="612" height="407" loading="lazy" />
             <h3>Where We Work: Pune, Ahmedabad, and Beyond</h3>
-            <p>Panthak is headquartered in Pune and operates a second base in Ahmedabad, two of western India&rsquo;s most active business hubs for manufacturing, trading, and professional services.</p>
+            <p><strong className="pn">Panthak</strong> is headquartered in Pune and operates a second base in Ahmedabad, two of western India&rsquo;s most active business hubs for manufacturing, trading, and professional services.</p>
             <p>That said, the firm works with clients well outside these two cities. Engagements run entirely over video calls, shared documents, and structured check-ins, with the same accountability as in person.</p>
           </article>
         </div>
@@ -206,7 +206,7 @@ export function Ways() {
         </article>
         <article className="svc">
           <h3>Led by People Who Have Done the Work</h3>
-          <p>Panthak is led by Atul Pandey, Founder and CEO, and Dr. Jyoti Pathak, Co-Founder and COO, alongside a team built specifically around the services the firm offers.</p>
+          <p><strong className="pn">Panthak</strong> is led by Atul Pandey, Founder and CEO, and Dr. Jyoti Pathak, Co-Founder and COO, alongside a team built specifically around the services the firm offers.</p>
           <p>That structure is part of why a business consulting engagement here tends to move faster than with larger firms: the person advising you on digital marketing actually specializes in digital marketing.</p>
         </article>
       </div>
