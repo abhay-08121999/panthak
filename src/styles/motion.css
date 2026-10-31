@@ -190,3 +190,15 @@ h2, h3 { text-wrap: balance; }
 }
 .logo-frame.logo-pbs img,
 .scrolled .brand .logo-frame.logo-pbs img { width: 82%; height: 82%; }
+
+/* ---------- Logo: remove the clipping that was cutting the image ---------- */
+.brand { overflow: visible; display: inline-flex; align-items: center; }
+.logo-cycle {
+  overflow: visible;
+  clip-path: none;
+  contain: none;
+  transform: none;
+  isolation: auto;
+  line-height: 0;
+}
+.logo-frame { inset: 0; }
