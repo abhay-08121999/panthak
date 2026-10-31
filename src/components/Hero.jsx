@@ -89,7 +89,7 @@ export default function Hero() {
           </h1>
           <ServiceTyper start={n >= total} />
           <p className="lead">
-            Panthak is a business consulting firm in Pune with a growing presence in Ahmedabad,
+            <strong className="pn">Panthak</strong> is a business consulting firm in Pune with a growing presence in Ahmedabad,
             delivering strategy, digital marketing, HR, finance, and custom software to businesses
             across India and worldwide.
           </p>
