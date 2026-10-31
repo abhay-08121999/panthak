@@ -35,6 +35,21 @@ export default function Header() {
     setMenuOpen(false);
   }, [location.pathname]);
 
+  // Mobile: close the nav automatically when the page scrolls.
+  // Small tolerance so tiny scroll jitter (e.g. iOS address bar) does not close it right after opening.
+  useEffect(() => {
+    if (!navOpen) return;
+    const startY = window.scrollY;
+    const onScroll = () => {
+      if (Math.abs(window.scrollY - startY) > 8) {
+        setNavOpen(false);
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [navOpen]);
+
   // Close dropdown on outside click / Escape
   useEffect(() => {
     const onClick = (e) => {
